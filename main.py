@@ -1,16 +1,20 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from handlers import start, help, echo
+from handlers import handle_start, handle_help, handle_echo
 from config import TOKEN
 
-updater = Updater(TOKEN)
-dispatcher = updater.dispatcher
+def main() -> None:
+    updater = Updater(TOKEN)
+    dispatcher = updater.dispatcher
 
-# command handler
-dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(CommandHandler("help", help))
+    # command handler
+    dispatcher.add_handler(CommandHandler("start", handle_start))
+    dispatcher.add_handler(CommandHandler("help", handle_help))
 
-# message handler
-dispatcher.add_handler(MessageHandler(Filters.text, echo))
+    # message handler
+    dispatcher.add_handler(MessageHandler(Filters.text, handle_echo))
 
-updater.start_polling()
-updater.idle()
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == "__main__":
+    main()
